@@ -1,0 +1,57 @@
+model{
+      for(i in 1:n){
+                    tp[i]~dbin(tpr[i],n1[i])
+                    fp[i]~dbin(fpr[i],n2[i])
+                    m[i,1:2]~dmnorm(mu.0[1:2],sigma.inv[1:2,1:2])
+                    w[i]~dgamma(nu.2,nu.2)I(0.001,3)
+                    y[i,1]<-mu[1]+m[i,1]/sqrt(w[i])
+                    y[i,2]<-mu[2]+m[i,2]/sqrt(w[i])
+                    tpr[i]<-a*link[i,1]+(1-a)*link[i,2]
+                    fpr[i]<-b*link[i,3]+(1-b)*link[i,4]
+                    logit(link[i,1])<-y[i,2]/2+y[i,1]/2
+                    cloglog(link[i,2])<-y[i,2]/2+y[i,1]/2
+                    logit(link[i,3])<-y[i,2]/2-y[i,1]/2
+                    cloglog(link[i,4])<-y[i,2]/2-y[i,1]/2
+               }
+  
+  ## Priors for the parameters
+    mu[1]~dnorm(0,0.25)
+    mu[2]~dnorm(0,0.25)
+    mu.0[1]<-0
+    mu.0[2]<-0
+    nu.2<-nu/2
+    nu~dexp(eta)I(2,100)
+    eta~dunif(0.02,0.5)
+    sigma.inv[1:2,1:2]~dwish(R[1:2,1:2],3)
+    a~dbeta(2,5)
+    b~dbeta(2,5)
+  
+  ## Pooled summaries
+    x.pool<-(mu[1]+mu[2])/2
+    y.pool<-(mu[2]-mu[1])/2
+    pool.se1<-exp(x.pool)/(1+exp(x.pool))
+    pool.se2<-1-exp(-exp(x.pool))
+    pool.sp1<-exp(y.pool)/(1+exp(y.pool))
+    pool.sp2<-1-exp(-exp(y.pool))
+    pool.se<-a*pool.se1+(1-a)*pool.se2
+    pool.sp<-1-(b*pool.sp1+(1-b)*pool.sp2)
+  
+  ## Predictive summaries
+    mu.s[1:2]~dmt(mu[1:2],sigma.inv[1:2,1:2],nu)
+    a.s~dbeta(2,5)
+    b.s~dbeta(2,5)
+    x.s<-(mu.s[1]+mu.s[2])/2
+    y.s<-(mu.s[2]-mu.s[1])/2
+    new.se1<-exp(x.s)/(1+exp(x.s))
+    new.se2<-1-exp(-exp(x.s))
+    new.sp1<-exp(y.s)/(1+exp(y.s))
+    new.sp2<-1-exp(-exp(y.s))
+    new.se<-a.s*new.se1+(1-a.s)*new.se2
+    new.sp<-1-(b.s*new.sp1+(1-b.s)*new.sp2)
+  
+  ## variance covariance matrix for random effects
+    sigma[1:2,1:2]<-inverse(sigma.inv[1:2,1:2])
+    sigmaD<-sigma[1,1]
+    sigmaS<-sigma[2,2]
+    rhoDS<-sigma[1,2]/(pow(sigmaD,0.5)*pow(sigmaS,0.5))
+}
