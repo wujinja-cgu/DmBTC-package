@@ -1,1 +1,2 @@
 # DmBTC-package
+The DmBTC package provides functions to conduct meta-analyses on the diagnostic accuracy of biomarkers for disease detection using a Bayesian approach. It allows users to perform Bayesian modeling of diagnostic accuracy, compare various models, generate comprehensive visualizations, and conduct diagnostics on convergence. This package is intended for researchers and statisticians analyzing the diagnostic power of biomarkers in a clinical setting.
