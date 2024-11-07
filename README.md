@@ -52,3 +52,5 @@ The DmBTC package consists of multiple R scripts and documentation resources to 
 - 2024-11-07. **v0.0.0.** A very preliminary version.
 
 ## References
+- Verde PE: Meta-analysis of diagnostic test data: a bivariate Bayesian modeling approach. Stat Med 2010, 29(30):3088-3102.
+- Furuya-Kanamori L, Kostoulas P, Doi SAR: A new method for synthesizing test accuracy data outperformed the bivariate method. J Clin Epidemiol 2021, 132:51-58.
