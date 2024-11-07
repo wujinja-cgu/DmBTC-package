@@ -3,7 +3,7 @@ The DmBTC package provides functions to conduct meta-analyses on the diagnostic 
 
 ## Package Structure
 The DmBTC package consists of multiple R scripts and documentation resources to facilitate diagnostic meta-analyses:
-{
+
 ├── R/
 │ ├── DmBTCmeta.R
 │ ├── SCSmeta.R
@@ -28,7 +28,7 @@ The DmBTC package consists of multiple R scripts and documentation resources to 
 .
 .
 │ ├── Study45.csv
-}
+
 ## Functions
 1.	DmBTCmeta: Conducts a Bayesian meta-analysis on diagnostic accuracy data, pooling results from multiple studies.
 2.	SCSmeta: Conducts a meta-analysis based on SCS model
